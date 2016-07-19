@@ -107,6 +107,19 @@ casper.then(function() {
         return $this;
     }
 
+    public function fillForm($selector, $data = array(), $submit = false)
+    {
+        $jsonData = json_encode($data);
+        $jsonSubmit = ($submit) ? 'true' : 'false';
+        $fragment = <<<FRAGMENT
+casper.then(function () {
+    this.fill('$selector', $jsonData, $jsonSubmit);
+});
+FRAGMENT;
+        $this->script .= $fragment;
+        return $this;
+    }
+    
     public function waitForSelector($selector, $timeout)
     {
         $this->script .= "
